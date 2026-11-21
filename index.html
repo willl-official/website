@@ -31,7 +31,7 @@
     <meta name="twitter:image" content="https://img.youtube.com/vi/NmV2XEtUD3A/maxresdefault.jpg">
 
     <style>
-        /* --- VARIÁVEIS & BASE (INDIE / ANALOG MONO) --- */
+        /* --- VARIÁVEIS & BASE (INDIE / ANALOG CRT) --- */
         :root {
             --bg-color: #0c0b0a;
             --surface-color: #151412;
@@ -40,8 +40,8 @@
             --accent-secondary: #a79f91;
             --text-main: #f2eee6;
             --text-muted: #9a9387;
-            --border-subtle: rgba(242, 238, 230, 0.12);
-            --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            --border-subtle: rgba(242, 238, 230, 0.13);
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -73,31 +73,68 @@
             overflow: hidden;
         }
 
-        /* Fundo & textura subtil de película */
-        body::before,
-        body::after {
+        /* Fundo base atmosférico */
+        body::before {
             content: '';
             position: fixed;
             inset: 0;
             z-index: -2;
             pointer-events: none;
-        }
-
-        body::before {
             background:
                 radial-gradient(circle at 22% 18%, rgba(223, 214, 199, 0.08), transparent 35%),
                 radial-gradient(circle at 80% 28%, rgba(154, 147, 135, 0.05), transparent 32%),
                 linear-gradient(180deg, #0b0a09 0%, #11100e 52%, #090807 100%);
         }
 
-        body::after {
-            z-index: -1;
-            opacity: 0.25;
-            background-image:
-                radial-gradient(rgba(242, 238, 230, 0.14) 0.75px, transparent 0.75px),
-                linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.72));
-            background-size: 6px 6px, 100% 100%;
-            animation: grainDrift 14s steps(4) infinite;
+        /* --- OLD TV SCREEN OVERLAY (SCANLINES + RUÍDO + VINHETA CRT) --- */
+        .crt-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9000;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* Linhas horizontais de TV antiga + vinheta curva nos cantos */
+        .crt-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    rgba(255, 255, 255, 0) 0px,
+                    rgba(255, 255, 255, 0) 2px,
+                    rgba(0, 0, 0, 0.24) 3px,
+                    rgba(0, 0, 0, 0.24) 4px
+                ),
+                radial-gradient(circle at center, transparent 58%, rgba(0, 0, 0, 0.68) 100%);
+            animation: crtFlicker 6s infinite;
+        }
+
+        /* Camada de ruído / estática analógica em movimento */
+        .crt-noise {
+            position: absolute;
+            inset: -40px;
+            opacity: 0.075;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            background-size: 180px 180px;
+            animation: staticNoise 0.28s steps(3) infinite;
+        }
+
+        /* Barra de refresh / tracking VHS que passa devagar no ecrã */
+        .crt-scanbar {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 110px;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(242, 238, 230, 0.035) 50%,
+                transparent 100%
+            );
+            animation: vhsRoll 8.5s linear infinite;
         }
 
         ::selection {
@@ -122,7 +159,7 @@
             padding: 0 24px;
         }
 
-        /* --- ANIMAÇÕES --- */
+        /* --- KEYFRAMES --- */
         @keyframes fadeInPage {
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
@@ -133,15 +170,48 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-7px); }
+        @keyframes analogFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-5px) rotate(-0.35deg); }
+            66% { transform: translateY(-2px) rotate(0.35deg); }
         }
 
-        @keyframes grainDrift {
-            0% { background-position: 0 0, 0 0; }
-            50% { background-position: 12px -8px, 0 0; }
-            100% { background-position: -8px 10px, 0 0; }
+        @keyframes staticNoise {
+            0% { transform: translate3d(0, 0, 0); }
+            33% { transform: translate3d(-14px, 10px, 0); }
+            66% { transform: translate3d(12px, -12px, 0); }
+            100% { transform: translate3d(-6px, -4px, 0); }
+        }
+
+        @keyframes vhsRoll {
+            0% { transform: translateY(-140px); }
+            100% { transform: translateY(110vh); }
+        }
+
+        @keyframes crtFlicker {
+            0%, 100% { opacity: 0.92; }
+            48% { opacity: 0.94; }
+            50% { opacity: 0.84; }
+            52% { opacity: 0.95; }
+            84% { opacity: 0.9; }
+            85% { opacity: 0.82; }
+            86% { opacity: 0.93; }
+        }
+
+        @keyframes tapePulse {
+            0%, 100% {
+                box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
+                border-color: rgba(242, 238, 230, 0.13);
+            }
+            50% {
+                box-shadow: 0 22px 54px rgba(0, 0, 0, 0.72), 0 0 18px rgba(223, 214, 199, 0.06);
+                border-color: rgba(223, 214, 199, 0.24);
+            }
+        }
+
+        @keyframes filmZoom {
+            0%, 100% { transform: scale(1) translate(0, 0); }
+            50% { transform: scale(1.035) translate(-1%, -0.8%); }
         }
 
         @keyframes loaderSpin {
@@ -166,7 +236,7 @@
             display: grid;
             place-items: center;
             padding: 24px;
-            background: rgba(10, 9, 8, 0.96);
+            background: rgba(10, 9, 8, 0.97);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             transition: opacity 0.55s ease, visibility 0.55s ease;
@@ -187,7 +257,7 @@
             padding: 32px 24px;
             border: 1px solid var(--border-subtle);
             border-radius: 4px;
-            background: rgba(18, 17, 15, 0.88);
+            background: rgba(18, 17, 15, 0.9);
             text-align: center;
         }
 
@@ -267,7 +337,7 @@
             z-index: -1;
             border: 1px solid var(--border-subtle);
             border-radius: 6px;
-            background: rgba(15, 14, 12, 0.78);
+            background: rgba(15, 14, 12, 0.8);
             box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
@@ -288,6 +358,7 @@
 
         .logo:hover {
             color: var(--accent-color);
+            text-shadow: -1px 0 rgba(255, 255, 255, 0.25), 1px 0 rgba(167, 159, 145, 0.35);
         }
 
         .nav-links {
@@ -502,6 +573,7 @@
             animation: fadeInUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
         }
 
+        /* Caixa de destaque com movimento analógico e zoom de película */
         .featured-card {
             background: var(--surface-color);
             border: 1px solid var(--border-subtle);
@@ -509,30 +581,63 @@
             padding: 18px;
             width: 100%;
             max-width: 390px;
-            animation: float 7s ease-in-out infinite;
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+            animation: analogFloat 6.5s ease-in-out infinite, tapePulse 5s ease-in-out infinite;
             text-decoration: none;
             color: inherit;
             display: block;
+            position: relative;
+            transition: var(--transition-smooth);
         }
 
-        .card-img {
+        .featured-card:hover {
+            transform: translateY(-6px) scale(1.015);
+            border-color: rgba(223, 214, 199, 0.45);
+        }
+
+        .card-img-frame {
             width: 100%;
             aspect-ratio: 4/3;
-            background:
-                linear-gradient(180deg, rgba(12, 11, 10, 0.05), rgba(12, 11, 10, 0.45)),
-                url("https://img.youtube.com/vi/NmV2XEtUD3A/maxresdefault.jpg") center/cover;
-            filter: grayscale(100%) contrast(1.08);
             border-radius: 2px;
             margin-bottom: 16px;
             position: relative;
             overflow: hidden;
+            background: #080807;
+        }
+
+        .card-img {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(12, 11, 10, 0.05), rgba(12, 11, 10, 0.45)),
+                url("https://img.youtube.com/vi/NmV2XEtUD3A/maxresdefault.jpg") center/cover;
+            filter: grayscale(100%) contrast(1.1);
+            animation: filmZoom 11s ease-in-out infinite;
+            transition: filter 0.45s ease;
+        }
+
+        .featured-card:hover .card-img {
+            filter: grayscale(35%) contrast(1.14);
+        }
+
+        /* Scanlines internas dentro da caixa da imagem */
+        .card-img-frame::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 2px,
+                rgba(0, 0, 0, 0.28) 3px
+            );
+            pointer-events: none;
         }
 
         .card-badge {
             position: absolute;
             top: 12px;
             right: 12px;
+            z-index: 2;
             background: rgba(12, 11, 10, 0.85);
             color: var(--accent-color);
             border: 1px solid var(--border-subtle);
@@ -556,17 +661,22 @@
             color: var(--text-muted);
         }
 
-        /* --- SCROLL REVEAL --- */
+        /* --- SCROLL REVEAL (SINTONIZAÇÃO CRT) --- */
         .reveal {
             opacity: 0;
-            transform: translate3d(0, 32px, 0);
-            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translate3d(0, 30px, 0) scale(0.98);
+            filter: blur(4px) contrast(1.2);
+            transition:
+                opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
             transition-delay: var(--reveal-delay, 0ms);
         }
 
         .reveal.is-visible {
             opacity: 1;
-            transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0) scale(1);
+            filter: blur(0) contrast(1);
         }
 
         /* --- VIDEOS SECTION --- */
@@ -607,16 +717,57 @@
             gap: 26px;
         }
 
+        /* Animações das caixas dos vídeos do YouTube */
         .video-wrapper {
             background: var(--surface-color);
             border-radius: 4px;
             padding: 16px;
             border: 1px solid var(--border-subtle);
-            transition: var(--transition-smooth);
+            position: relative;
+            transition:
+                transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.45s ease,
+                box-shadow 0.45s ease,
+                background-color 0.45s ease;
+        }
+
+        /* Cantos estilo visor de câmara / monitor CRT */
+        .video-wrapper::before,
+        .video-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-color: rgba(223, 214, 199, 0.25);
+            border-style: solid;
+            pointer-events: none;
+            transition: border-color 0.35s ease, width 0.35s ease, height 0.35s ease;
+        }
+
+        .video-wrapper::before {
+            top: 6px;
+            left: 6px;
+            border-width: 1px 0 0 1px;
+        }
+
+        .video-wrapper::after {
+            bottom: 6px;
+            right: 6px;
+            border-width: 0 1px 1px 0;
         }
 
         .video-wrapper:hover {
-            border-color: rgba(223, 214, 199, 0.32);
+            transform: translateY(-6px);
+            background: var(--surface-accent);
+            border-color: rgba(223, 214, 199, 0.42);
+            box-shadow: 0 22px 48px rgba(0, 0, 0, 0.65);
+        }
+
+        .video-wrapper:hover::before,
+        .video-wrapper:hover::after {
+            border-color: var(--accent-color);
+            width: 16px;
+            height: 16px;
         }
 
         .video-container {
@@ -627,6 +778,34 @@
             border-radius: 2px;
             overflow: hidden;
             margin-bottom: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .video-wrapper:hover .video-container {
+            border-color: rgba(223, 214, 199, 0.25);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Efeito de linha CRT subtil por cima da moldura sem atrapalhar o clique */
+        .video-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 3px,
+                rgba(0, 0, 0, 0.16) 4px
+            );
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-wrapper:hover .video-container::after {
+            opacity: 0.25;
         }
 
         .video-container iframe {
@@ -635,6 +814,7 @@
             width: 100%;
             height: 100%;
             border: none;
+            z-index: 1;
         }
 
         .video-header {
@@ -649,6 +829,12 @@
             font-style: italic;
             font-size: 1.2rem;
             color: var(--text-main);
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .video-wrapper:hover .video-title {
+            color: #ffffff;
+            text-shadow: -1px 0 rgba(255, 255, 255, 0.18), 1px 0 rgba(167, 159, 145, 0.28);
         }
 
         .video-link {
@@ -658,6 +844,7 @@
             color: var(--accent-secondary);
             text-decoration: none;
             white-space: nowrap;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
         .video-link:hover {
@@ -741,6 +928,17 @@
             font-size: 0.82rem;
         }
 
+        /* Acessibilidade para quem desativa animações */
+        @media (prefers-reduced-motion: reduce) {
+            .crt-noise,
+            .crt-scanbar,
+            .crt-overlay::before,
+            .featured-card,
+            .card-img {
+                animation: none;
+            }
+        }
+
         /* --- RESPONSIVO (TABLET & TELEMÓVEL) --- */
         @media (max-width: 860px) {
             .hero {
@@ -809,6 +1007,12 @@
 </head>
 <body class="is-loading">
 
+    <!-- Camada Old TV / Ruído Analógico -->
+    <div class="crt-overlay" aria-hidden="true">
+        <div class="crt-noise"></div>
+        <div class="crt-scanbar"></div>
+    </div>
+
     <!-- Page Loader -->
     <div class="page-loader" id="pageLoader" aria-hidden="true">
         <div class="loader-card">
@@ -857,7 +1061,7 @@
                     <h1 class="hero-title">cannot lie</h1>
                     <blockquote class="hero-lyric">
                         “You’re not going to be mine,<br>
-                        we only touched in our shadows.”
+                        we’re only touching our shadows.”
                     </blockquote>
                     <div class="cta-group">
                         <a href="#videos" class="btn btn-primary">Ouvir Agora</a>
@@ -867,7 +1071,8 @@
 
                 <div class="hero-image-wrapper">
                     <a href="https://www.youtube.com/watch?v=NmV2XEtUD3A" target="_blank" rel="noopener noreferrer" class="featured-card">
-                        <div class="card-img">
+                        <div class="card-img-frame">
+                            <div class="card-img"></div>
                             <span class="card-badge">Novo</span>
                         </div>
                         <div class="card-title">cannot lie</div>
@@ -878,7 +1083,7 @@
         </div>
     </section>
 
-    <!-- Vídeos / Músicas (sem duplicação) -->
+    <!-- Vídeos / Músicas -->
     <section id="videos">
         <div class="container">
             <div class="section-header reveal">
@@ -1035,7 +1240,7 @@
             );
 
             reveals.forEach((el, idx) => {
-                el.style.setProperty("--reveal-delay", (idx % 2) * 80 + "ms");
+                el.style.setProperty("--reveal-delay", (idx % 2) * 90 + "ms");
                 observer.observe(el);
             });
         })();
