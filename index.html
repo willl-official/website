@@ -66,7 +66,10 @@
             line-height: 1.65;
             position: relative;
             isolation: isolate;
-            animation: fadeInPage 0.6s ease-out;
+        }
+
+        body.site-ready {
+            animation: siteRevealFade 0.9s ease forwards;
         }
 
         body.menu-open {
@@ -86,16 +89,15 @@
                 linear-gradient(180deg, #0b0a09 0%, #11100e 52%, #090807 100%);
         }
 
-        /* --- OLD TV SCREEN OVERLAY (SCANLINES + RUÍDO + VINHETA CRT) --- */
+        /* --- OLD TV SCREEN OVERLAY CONTÍNUO NO SITE --- */
         .crt-overlay {
             position: fixed;
             inset: 0;
-            z-index: 9000;
+            z-index: 8500;
             pointer-events: none;
             overflow: hidden;
         }
 
-        /* Linhas horizontais de TV antiga + vinheta curva nos cantos */
         .crt-overlay::before {
             content: '';
             position: absolute;
@@ -112,7 +114,6 @@
             animation: crtFlicker 6s infinite;
         }
 
-        /* Camada de ruído / estática analógica em movimento */
         .crt-noise {
             position: absolute;
             inset: -40px;
@@ -122,7 +123,6 @@
             animation: staticNoise 0.28s steps(3) infinite;
         }
 
-        /* Barra de refresh / tracking VHS que passa devagar no ecrã */
         .crt-scanbar {
             position: absolute;
             left: 0;
@@ -135,6 +135,251 @@
                 transparent 100%
             );
             animation: vhsRoll 8.5s linear infinite;
+        }
+
+        /* --- LOADING SCREEN: DENTRO DE UMA TV ANTIGA --- */
+        body.is-loading {
+            overflow: hidden;
+        }
+
+        .tv-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #050504;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 1;
+            transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.85s ease;
+        }
+
+        .tv-loader.is-fading {
+            opacity: 0;
+            transform: scale(1.06);
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* Caixa exterior / moldura do televisor antigo */
+        .tv-casing {
+            width: min(880px, 100%);
+            aspect-ratio: 4 / 3;
+            max-height: 88vh;
+            background: linear-gradient(145deg, #1b1916 0%, #0e0d0b 65%, #080706 100%);
+            border: 2px solid rgba(242, 238, 230, 0.14);
+            border-radius: 26px;
+            padding: clamp(14px, 3vw, 28px);
+            box-shadow:
+                0 30px 90px rgba(0, 0, 0, 0.9),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                inset 0 0 40px rgba(0, 0, 0, 0.75);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        /* Ecrã curvo / vidro CRT interior onde fica a loading bar */
+        .tv-screen {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            border-radius: 22px;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at center, #1d1b18 0%, #0d0c0a 72%, #050504 100%);
+            border: 2px solid rgba(0, 0, 0, 0.85);
+            box-shadow:
+                inset 0 0 65px rgba(0, 0, 0, 0.9),
+                inset 0 0 14px rgba(242, 238, 230, 0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: clamp(18px, 3.5vw, 32px);
+        }
+
+        /* Scanlines + ruído dentro do ecrã da TV */
+        .tv-screen::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    transparent 0px,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.34) 3px,
+                    rgba(0, 0, 0, 0.34) 4px
+                ),
+                radial-gradient(circle at center, transparent 52%, rgba(0, 0, 0, 0.72) 100%);
+            pointer-events: none;
+            z-index: 2;
+            animation: crtFlicker 3.5s infinite;
+        }
+
+        /* Reflexo de vidro curvo no canto superior */
+        .tv-screen::after {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -15%;
+            width: 65%;
+            height: 55%;
+            background: radial-gradient(ellipse at center, rgba(242, 238, 230, 0.06), transparent 70%);
+            transform: rotate(-16deg);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .tv-screen-noise {
+            position: absolute;
+            inset: -24px;
+            opacity: 0.14;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='tvNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23tvNoise)'/%3E%3C/svg%3E");
+            background-size: 160px 160px;
+            animation: staticNoise 0.2s steps(2) infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .tv-top-hud,
+        .tv-center-hud,
+        .tv-bottom-hud {
+            position: relative;
+            z-index: 4;
+        }
+
+        .tv-top-hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: "Courier New", Courier, monospace;
+            font-size: clamp(0.72rem, 1.8vw, 0.9rem);
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            text-shadow: 0 0 8px rgba(223, 214, 199, 0.28);
+        }
+
+        .tv-signal-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            margin-right: 8px;
+            box-shadow: 0 0 10px var(--accent-color);
+            animation: ledBlink 1.1s ease-in-out infinite;
+        }
+
+        .tv-center-hud {
+            text-align: center;
+            margin: auto 0;
+        }
+
+        .tv-brand {
+            font-family: Georgia, "Times New Roman", serif;
+            font-style: italic;
+            font-size: clamp(2.4rem, 7vw, 4.4rem);
+            line-height: 1.05;
+            color: var(--text-main);
+            letter-spacing: 0.04em;
+            text-shadow:
+                -1.5px 0 rgba(255, 255, 255, 0.22),
+                1.5px 0 rgba(167, 159, 145, 0.28),
+                0 0 24px rgba(242, 238, 230, 0.14);
+        }
+
+        .tv-subtitle {
+            margin-top: 8px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: clamp(0.72rem, 1.8vw, 0.88rem);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* Loading bar dentro do próprio ecrã da TV */
+        .tv-bottom-hud {
+            width: 100%;
+        }
+
+        .tv-bar-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: "Courier New", Courier, monospace;
+            font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+            letter-spacing: 0.14em;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+
+        .tv-progress-track {
+            width: 100%;
+            height: 12px;
+            padding: 2px;
+            border: 1px solid rgba(242, 238, 230, 0.45);
+            border-radius: 2px;
+            background: rgba(0, 0, 0, 0.65);
+            box-shadow: 0 0 16px rgba(223, 214, 199, 0.08);
+        }
+
+        .tv-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--accent-color) 0px,
+                var(--accent-color) 10px,
+                rgba(223, 214, 199, 0.45) 10px,
+                rgba(223, 214, 199, 0.45) 13px
+            );
+            box-shadow: 0 0 12px rgba(223, 214, 199, 0.45);
+            transition: width 0.12s linear;
+        }
+
+        /* Barra inferior exterior da TV (botão + grelha de som) */
+        .tv-bezel-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            gap: 16px;
+        }
+
+        .tv-speaker-grille {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 4px;
+            width: 130px;
+        }
+
+        .tv-speaker-grille span {
+            height: 3px;
+            border-radius: 2px;
+            background: rgba(242, 238, 230, 0.14);
+        }
+
+        .tv-skip-btn {
+            background: transparent;
+            border: 1px solid rgba(242, 238, 230, 0.22);
+            color: var(--text-muted);
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .tv-skip-btn:hover {
+            color: var(--text-main);
+            border-color: var(--accent-color);
         }
 
         ::selection {
@@ -160,14 +405,19 @@
         }
 
         /* --- KEYFRAMES --- */
-        @keyframes fadeInPage {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes siteRevealFade {
+            from { opacity: 0.15; }
+            to { opacity: 1; }
         }
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(28px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes ledBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.25; }
         }
 
         @keyframes analogFloat {
@@ -212,100 +462,6 @@
         @keyframes filmZoom {
             0%, 100% { transform: scale(1) translate(0, 0); }
             50% { transform: scale(1.035) translate(-1%, -0.8%); }
-        }
-
-        @keyframes loaderSpin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes loadingBar {
-            0% { transform: translateX(-100%); }
-            55% { transform: translateX(8%); }
-            100% { transform: translateX(130%); }
-        }
-
-        /* --- PAGE LOADER --- */
-        body.is-loading {
-            overflow: hidden;
-        }
-
-        .page-loader {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            display: grid;
-            place-items: center;
-            padding: 24px;
-            background: rgba(10, 9, 8, 0.97);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            transition: opacity 0.55s ease, visibility 0.55s ease;
-        }
-
-        .page-loader.is-hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .loader-card {
-            width: min(320px, 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 18px;
-            padding: 32px 24px;
-            border: 1px solid var(--border-subtle);
-            border-radius: 4px;
-            background: rgba(18, 17, 15, 0.9);
-            text-align: center;
-        }
-
-        .loader-mark {
-            width: 72px;
-            height: 72px;
-            position: relative;
-            display: grid;
-            place-items: center;
-        }
-
-        .loader-mark::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            border: 1px solid rgba(242, 238, 230, 0.14);
-            border-top-color: var(--accent-color);
-            animation: loaderSpin 1.2s linear infinite;
-        }
-
-        .loader-logo {
-            font-family: Georgia, "Times New Roman", serif;
-            font-style: italic;
-            font-size: 1.25rem;
-            letter-spacing: 0.06em;
-            color: var(--text-main);
-        }
-
-        .loader-progress {
-            width: 100%;
-            height: 2px;
-            overflow: hidden;
-            background: rgba(242, 238, 230, 0.1);
-        }
-
-        .loader-progress span {
-            display: block;
-            width: 55%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-            animation: loadingBar 1.3s ease-in-out infinite;
-        }
-
-        .loader-percent {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            letter-spacing: 0.14em;
         }
 
         /* --- NAVIGATION + MOBILE HAMBURGER --- */
@@ -388,7 +544,6 @@
             background: rgba(242, 238, 230, 0.06);
         }
 
-        /* Botão Hambúrguer */
         .menu-toggle {
             display: none;
             background: transparent;
@@ -430,7 +585,6 @@
             transform: translateY(-6.5px) rotate(-45deg);
         }
 
-        /* Drawer Mobile */
         .mobile-drawer {
             position: fixed;
             inset: 0;
@@ -573,7 +727,6 @@
             animation: fadeInUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
         }
 
-        /* Caixa de destaque com movimento analógico e zoom de película */
         .featured-card {
             background: var(--surface-color);
             border: 1px solid var(--border-subtle);
@@ -619,7 +772,6 @@
             filter: grayscale(35%) contrast(1.14);
         }
 
-        /* Scanlines internas dentro da caixa da imagem */
         .card-img-frame::after {
             content: '';
             position: absolute;
@@ -661,7 +813,7 @@
             color: var(--text-muted);
         }
 
-        /* --- SCROLL REVEAL (SINTONIZAÇÃO CRT) --- */
+        /* --- SCROLL REVEAL --- */
         .reveal {
             opacity: 0;
             transform: translate3d(0, 30px, 0) scale(0.98);
@@ -717,7 +869,6 @@
             gap: 26px;
         }
 
-        /* Animações das caixas dos vídeos do YouTube */
         .video-wrapper {
             background: var(--surface-color);
             border-radius: 4px;
@@ -731,7 +882,6 @@
                 background-color 0.45s ease;
         }
 
-        /* Cantos estilo visor de câmara / monitor CRT */
         .video-wrapper::before,
         .video-wrapper::after {
             content: '';
@@ -787,7 +937,6 @@
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
         }
 
-        /* Efeito de linha CRT subtil por cima da moldura sem atrapalhar o clique */
         .video-container::after {
             content: '';
             position: absolute;
@@ -844,7 +993,7 @@
             color: var(--accent-secondary);
             text-decoration: none;
             white-space: nowrap;
-            transition: color 0.3s ease, transform 0.3s ease;
+            transition: color 0.3s ease;
         }
 
         .video-link:hover {
@@ -928,19 +1077,34 @@
             font-size: 0.82rem;
         }
 
-        /* Acessibilidade para quem desativa animações */
         @media (prefers-reduced-motion: reduce) {
             .crt-noise,
             .crt-scanbar,
             .crt-overlay::before,
+            .tv-screen::before,
+            .tv-screen-noise,
+            .tv-signal-dot,
             .featured-card,
             .card-img {
                 animation: none;
+            }
+            .tv-loader {
+                transition-duration: 0.2s;
             }
         }
 
         /* --- RESPONSIVO (TABLET & TELEMÓVEL) --- */
         @media (max-width: 860px) {
+            .tv-casing {
+                aspect-ratio: auto;
+                min-height: 70vh;
+                border-radius: 20px;
+            }
+
+            .tv-screen {
+                border-radius: 16px;
+            }
+
             .hero {
                 min-height: auto;
                 padding: 108px 0 56px;
@@ -1007,20 +1171,46 @@
 </head>
 <body class="is-loading">
 
-    <!-- Camada Old TV / Ruído Analógico -->
+    <!-- Camada Old TV / Ruído Analógico Contínua -->
     <div class="crt-overlay" aria-hidden="true">
         <div class="crt-noise"></div>
         <div class="crt-scanbar"></div>
     </div>
 
-    <!-- Page Loader -->
-    <div class="page-loader" id="pageLoader" aria-hidden="true">
-        <div class="loader-card">
-            <div class="loader-mark">
-                <span class="loader-logo">willl</span>
+    <!-- Loading Screen: Dentro de uma TV Antiga com Loading Bar no Ecrã -->
+    <div class="tv-loader" id="tvLoader" role="status" aria-live="polite">
+        <div class="tv-casing">
+            <div class="tv-screen">
+                <div class="tv-screen-noise" aria-hidden="true"></div>
+
+                <div class="tv-top-hud">
+                    <span><i class="tv-signal-dot" aria-hidden="true"></i>AV-1 · CRT</span>
+                    <span id="tvStatusLabel">SINTONIZANDO...</span>
+                </div>
+
+                <div class="tv-center-hud">
+                    <div class="tv-brand">willl</div>
+                    <div class="tv-subtitle">cannot lie · analog feed</div>
+                </div>
+
+                <div class="tv-bottom-hud">
+                    <div class="tv-bar-meta">
+                        <span>A CARREGAR SINAL</span>
+                        <span id="tvPercent">0%</span>
+                    </div>
+                    <div class="tv-progress-track">
+                        <div class="tv-progress-fill" id="tvProgressFill"></div>
+                    </div>
+                </div>
             </div>
-            <div class="loader-progress"><span></span></div>
-            <div class="loader-percent" id="loaderPercent">0%</div>
+
+            <div class="tv-bezel-footer">
+                <div class="tv-speaker-grille" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <button type="button" class="tv-skip-btn" id="tvSkipBtn">Entrar →</button>
+            </div>
         </div>
     </div>
 
@@ -1162,29 +1352,62 @@
     </footer>
 
     <script>
-        // --- LOADER ---
+        // --- LOADING SCREEN DENTRO DA TV ANTIGA + FADE PARA O SITE ---
         (function () {
-            const loader = document.getElementById("pageLoader");
-            const percentEl = document.getElementById("loaderPercent");
+            const tvLoader = document.getElementById("tvLoader");
+            const tvFill = document.getElementById("tvProgressFill");
+            const tvPercent = document.getElementById("tvPercent");
+            const tvStatus = document.getElementById("tvStatusLabel");
+            const skipBtn = document.getElementById("tvSkipBtn");
+
             let progress = 0;
+            let finished = false;
 
-            const interval = setInterval(() => {
-                progress += Math.floor(Math.random() * 20) + 10;
-                if (progress >= 92) progress = 92;
-                if (percentEl) percentEl.textContent = progress + "%";
-            }, 85);
-
-            function finishLoader() {
-                clearInterval(interval);
-                if (percentEl) percentEl.textContent = "100%";
-                setTimeout(() => {
-                    document.body.classList.remove("is-loading");
-                    if (loader) loader.classList.add("is-hidden");
-                }, 180);
+            function setProgress(val) {
+                progress = Math.max(0, Math.min(100, val));
+                if (tvFill) tvFill.style.width = progress + "%";
+                if (tvPercent) tvPercent.textContent = progress + "%";
+                if (tvStatus) {
+                    if (progress < 40) tvStatus.textContent = "SINTONIZANDO...";
+                    else if (progress < 85) tvStatus.textContent = "A RECEBER SINAL...";
+                    else tvStatus.textContent = "SINAL LOCKED";
+                }
             }
 
-            window.addEventListener("load", finishLoader);
-            setTimeout(finishLoader, 1600);
+            function enterSite() {
+                if (finished) return;
+                finished = true;
+                clearInterval(stepTimer);
+                setProgress(100);
+
+                setTimeout(() => {
+                    document.body.classList.remove("is-loading");
+                    document.body.classList.add("site-ready");
+                    if (tvLoader) {
+                        tvLoader.classList.add("is-fading");
+                        setTimeout(() => {
+                            tvLoader.style.display = "none";
+                        }, 900);
+                    }
+                }, 220);
+            }
+
+            const stepTimer = setInterval(() => {
+                if (progress < 90) {
+                    setProgress(progress + Math.floor(Math.random() * 14) + 6);
+                }
+            }, 120);
+
+            window.addEventListener("load", () => {
+                setTimeout(enterSite, 750);
+            });
+
+            if (skipBtn) {
+                skipBtn.addEventListener("click", enterSite);
+            }
+
+            // Garante que nunca fica preso mesmo que um iframe/imagem demore
+            setTimeout(enterSite, 2400);
         })();
 
         // --- MENU HAMBÚRGUER MOBILE ---
