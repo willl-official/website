@@ -7,43 +7,41 @@
     <title>WILLL | Official Website</title>
 
     <!-- SEO & Identidade -->
-    <meta name="description" content="Website oficial do WILLL. Ouve os lançamentos, videoclipes, lyric videos, EPK e novidades.">
-    <meta name="keywords" content="WILLL, cannot lie, myself, it hurts, problems, Indie R&B, Alternative R&B, Bedroom Pop, Lo-Fi">
+    <meta name="description" content="WILLL — cannot lie, myself, it hurts e problems.">
+    <meta name="keywords" content="WILLL, cannot lie, myself, it hurts, problems">
     <meta name="author" content="DayzVibes">
     <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0c0b0a">
 
-    <!-- Favicon & Theme -->
-    <meta name="theme-color" content="#0d0c0b">
-
-    <!-- Open Graph (Facebook, WhatsApp, IG) -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="WILLL">
     <meta property="og:locale" content="pt_PT">
     <meta property="og:title" content="WILLL | Official Website">
-    <meta property="og:description" content="cannot lie, myself, it hurts, problems — videoclipes, áudio e novidades oficiais do WILLL.">
+    <meta property="og:description" content="WILLL — cannot lie (official music video), myself, it hurts e problems.">
     <meta property="og:image" content="https://img.youtube.com/vi/NmV2XEtUD3A/maxresdefault.jpg">
     <meta property="og:image:width" content="1280">
     <meta property="og:image:height" content="720">
-    <meta property="og:image:alt" content="WILLL - cannot lie (official music video)">
+    <meta property="og:image:alt" content="WILLL - cannot lie">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="WILLL | Official Website">
-    <meta name="twitter:description" content="cannot lie, myself, it hurts, problems — videoclipes, áudio e novidades oficiais do WILLL.">
+    <meta name="twitter:description" content="WILLL — cannot lie, myself, it hurts e problems.">
     <meta name="twitter:image" content="https://img.youtube.com/vi/NmV2XEtUD3A/maxresdefault.jpg">
 
     <style>
-        /* --- CONFIGURAÇÕES GERAIS & VARIÁVEIS (INDIE / ANALOG MONO) --- */
+        /* --- VARIÁVEIS & BASE (INDIE / ANALOG MONO) --- */
         :root {
             --bg-color: #0c0b0a;
             --surface-color: #151412;
             --surface-accent: #1e1c19;
-            --accent-color: #dfd6c7;      /* Creme / Osso analógico */
-            --accent-secondary: #a79f91;  /* Prata / Cinza quente */
+            --accent-color: #dfd6c7;
+            --accent-secondary: #a79f91;
             --text-main: #f2eee6;
             --text-muted: #9a9387;
             --border-subtle: rgba(242, 238, 230, 0.12);
-            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
@@ -68,10 +66,14 @@
             line-height: 1.65;
             position: relative;
             isolation: isolate;
-            animation: fadeInPage 0.65s ease-out;
+            animation: fadeInPage 0.6s ease-out;
         }
 
-        /* Vinheta cinematográfica + textura de grão analógico */
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /* Fundo & textura subtil de película */
         body::before,
         body::after {
             content: '';
@@ -83,16 +85,14 @@
 
         body::before {
             background:
-                radial-gradient(circle at 22% 18%, rgba(223, 214, 199, 0.09), transparent 34%),
-                radial-gradient(circle at 80% 26%, rgba(154, 147, 135, 0.06), transparent 30%),
-                radial-gradient(circle at 50% 85%, rgba(223, 214, 199, 0.05), transparent 40%),
+                radial-gradient(circle at 22% 18%, rgba(223, 214, 199, 0.08), transparent 35%),
+                radial-gradient(circle at 80% 28%, rgba(154, 147, 135, 0.05), transparent 32%),
                 linear-gradient(180deg, #0b0a09 0%, #11100e 52%, #090807 100%);
-            animation: ambientShift 18s ease-in-out infinite alternate;
         }
 
         body::after {
             z-index: -1;
-            opacity: 0.28;
+            opacity: 0.25;
             background-image:
                 radial-gradient(rgba(242, 238, 230, 0.14) 0.75px, transparent 0.75px),
                 linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.72));
@@ -115,42 +115,27 @@
             background: var(--surface-accent);
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-secondary);
-        }
 
         .container {
-            max-width: 1200px;
+            max-width: 1140px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
         /* --- ANIMAÇÕES --- */
         @keyframes fadeInPage {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(36px); }
+            from { opacity: 0; transform: translateY(28px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes pulseSubtle {
-            0% { box-shadow: 0 0 0 rgba(223, 214, 199, 0); }
-            50% { box-shadow: 0 0 22px rgba(223, 214, 199, 0.16); }
-            100% { box-shadow: 0 0 0 rgba(223, 214, 199, 0); }
-        }
-
-        @keyframes ambientShift {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-7px); }
         }
 
         @keyframes grainDrift {
@@ -161,11 +146,6 @@
 
         @keyframes loaderSpin {
             to { transform: rotate(360deg); }
-        }
-
-        @keyframes loaderPulse {
-            0%, 100% { opacity: 0.35; transform: scale(0.94); }
-            50% { opacity: 0.9; transform: scale(1); }
         }
 
         @keyframes loadingBar {
@@ -186,12 +166,10 @@
             display: grid;
             place-items: center;
             padding: 24px;
-            background:
-                radial-gradient(circle at 50% 35%, rgba(223, 214, 199, 0.1), transparent 36%),
-                rgba(10, 9, 8, 0.96);
-            backdrop-filter: blur(22px) saturate(140%);
-            -webkit-backdrop-filter: blur(22px) saturate(140%);
-            transition: opacity 0.65s ease, visibility 0.65s ease;
+            background: rgba(10, 9, 8, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: opacity 0.55s ease, visibility 0.55s ease;
         }
 
         .page-loader.is-hidden {
@@ -201,73 +179,42 @@
         }
 
         .loader-card {
-            width: min(360px, 100%);
-            min-height: 270px;
+            width: min(320px, 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 20px;
-            padding: 34px 28px;
+            gap: 18px;
+            padding: 32px 24px;
             border: 1px solid var(--border-subtle);
             border-radius: 4px;
-            background:
-                linear-gradient(160deg, rgba(242, 238, 230, 0.06), rgba(242, 238, 230, 0.015)),
-                rgba(18, 17, 15, 0.84);
-            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.65);
+            background: rgba(18, 17, 15, 0.88);
             text-align: center;
         }
 
         .loader-mark {
-            width: 82px;
-            height: 82px;
+            width: 72px;
+            height: 72px;
             position: relative;
             display: grid;
             place-items: center;
         }
 
-        .loader-mark::before,
-        .loader-mark::after {
+        .loader-mark::before {
             content: '';
             position: absolute;
             inset: 0;
             border-radius: 50%;
-        }
-
-        .loader-mark::before {
             border: 1px solid rgba(242, 238, 230, 0.14);
             border-top-color: var(--accent-color);
-            animation: loaderSpin 1.3s linear infinite;
-        }
-
-        .loader-mark::after {
-            inset: 16px;
-            border: 1px solid rgba(242, 238, 230, 0.08);
-            animation: loaderPulse 1.8s ease-in-out infinite;
+            animation: loaderSpin 1.2s linear infinite;
         }
 
         .loader-logo {
-            position: relative;
-            z-index: 1;
             font-family: Georgia, "Times New Roman", serif;
             font-style: italic;
-            font-weight: 400;
             font-size: 1.25rem;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
             color: var(--text-main);
-        }
-
-        .loader-title {
-            font-size: 0.78rem;
-            font-weight: 700;
-            letter-spacing: 0.26em;
-            text-transform: uppercase;
-            color: var(--accent-secondary);
-        }
-
-        .loader-text {
-            color: var(--text-muted);
-            font-size: 0.9rem;
         }
 
         .loader-progress {
@@ -282,55 +229,33 @@
             width: 55%;
             height: 100%;
             background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-            animation: loadingBar 1.35s ease-in-out infinite;
+            animation: loadingBar 1.3s ease-in-out infinite;
         }
 
         .loader-percent {
-            font-size: 0.82rem;
-            font-weight: 600;
+            font-size: 0.8rem;
             color: var(--text-muted);
             letter-spacing: 0.14em;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            .loader-mark::before,
-            .loader-mark::after,
-            .loader-progress span,
-            body::before,
-            body::after {
-                animation: none;
-            }
-            .page-loader {
-                transition-duration: 0.2s;
-            }
-        }
-
-        /* --- NAVIGATION --- */
+        /* --- NAVIGATION + MOBILE HAMBURGER --- */
         header {
             position: fixed;
-            top: 16px;
+            top: 14px;
             left: 0;
             width: 100%;
             z-index: 1000;
-            background: transparent;
-            pointer-events: none;
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            inset: -16px 0 auto;
-            height: 112px;
-            background: linear-gradient(180deg, rgba(12, 11, 10, 0.76), rgba(12, 11, 10, 0));
             pointer-events: none;
         }
 
         .nav-container {
+            max-width: 1140px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            min-height: 64px;
-            padding: 0 48px;
+            min-height: 60px;
+            padding: 0 28px;
             position: relative;
             pointer-events: auto;
         }
@@ -338,16 +263,14 @@
         .nav-container::before {
             content: '';
             position: absolute;
-            inset: 0 24px;
+            inset: 0 16px;
             z-index: -1;
             border: 1px solid var(--border-subtle);
-            border-radius: 8px;
-            background:
-                linear-gradient(135deg, rgba(242, 238, 230, 0.07), rgba(242, 238, 230, 0.02)),
-                rgba(15, 14, 12, 0.68);
-            box-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
-            backdrop-filter: blur(20px) saturate(140%);
-            -webkit-backdrop-filter: blur(20px) saturate(140%);
+            border-radius: 6px;
+            background: rgba(15, 14, 12, 0.78);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
         }
 
         .logo {
@@ -357,31 +280,31 @@
             color: var(--text-main);
             font-family: Georgia, "Times New Roman", serif;
             font-style: italic;
-            font-size: 1.5rem;
+            font-size: 1.45rem;
             letter-spacing: 0.04em;
+            padding-left: 8px;
             transition: var(--transition-smooth);
         }
 
         .logo:hover {
             color: var(--accent-color);
-            transform: translateY(-1px);
         }
 
         .nav-links {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             list-style: none;
+            padding-right: 8px;
         }
 
         .nav-links a {
             text-decoration: none;
             color: var(--text-muted);
             font-weight: 500;
-            font-size: 0.85rem;
-            letter-spacing: 0.08em;
+            font-size: 0.82rem;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             transition: var(--transition-smooth);
-            position: relative;
             display: inline-flex;
             align-items: center;
             min-height: 36px;
@@ -394,56 +317,141 @@
             background: rgba(242, 238, 230, 0.06);
         }
 
+        /* Botão Hambúrguer */
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            width: 42px;
+            height: 42px;
+            margin-right: 6px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+            transition: var(--transition-smooth);
+        }
+
+        .menu-toggle:hover {
+            border-color: var(--accent-color);
+            background: rgba(242, 238, 230, 0.05);
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 18px;
+            height: 1.5px;
+            background-color: var(--text-main);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .menu-toggle.is-active span:nth-child(1) {
+            transform: translateY(6.5px) rotate(45deg);
+        }
+
+        .menu-toggle.is-active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.is-active span:nth-child(3) {
+            transform: translateY(-6.5px) rotate(-45deg);
+        }
+
+        /* Drawer Mobile */
+        .mobile-drawer {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: rgba(11, 10, 9, 0.96);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 32px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-12px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+        }
+
+        .mobile-drawer.is-open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .mobile-drawer a {
+            font-family: Georgia, "Times New Roman", serif;
+            font-style: italic;
+            font-size: 2rem;
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 8px 20px;
+            transition: var(--transition-smooth);
+        }
+
+        .mobile-drawer a:hover {
+            color: var(--accent-color);
+        }
+
         /* --- HERO SECTION --- */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding-top: 104px;
-            position: relative;
+            padding: 112px 0 72px;
         }
 
         .hero-grid {
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 48px;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 44px;
             align-items: center;
         }
 
         .hero-content {
             opacity: 0;
-            animation: fadeInUp 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+            animation: fadeInUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
         }
 
         .tagline {
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             text-transform: uppercase;
-            letter-spacing: 0.26em;
+            letter-spacing: 0.24em;
             color: var(--accent-secondary);
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .hero-title {
             font-family: Georgia, "Times New Roman", serif;
             font-style: italic;
             font-weight: 400;
-            font-size: clamp(2.8rem, 7vw, 4.8rem);
-            line-height: 1.05;
-            margin-bottom: 22px;
-            letter-spacing: -0.01em;
+            font-size: clamp(2.8rem, 8vw, 4.8rem);
+            line-height: 1.04;
+            margin-bottom: 18px;
         }
 
-        .hero-desc {
+        .hero-lyric {
+            font-family: Georgia, "Times New Roman", serif;
+            font-style: italic;
             color: var(--text-muted);
-            font-size: 1.04rem;
-            margin-bottom: 36px;
-            max-width: 490px;
+            font-size: 1.08rem;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            padding-left: 16px;
+            border-left: 1px solid var(--border-subtle);
+            max-width: 440px;
         }
 
         .cta-group {
             display: flex;
-            gap: 14px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
@@ -451,10 +459,10 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 14px 28px;
+            padding: 14px 26px;
             border-radius: 3px;
             font-weight: 600;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             letter-spacing: 0.14em;
             text-transform: uppercase;
             text-decoration: none;
@@ -467,7 +475,6 @@
             background-color: var(--accent-color);
             color: var(--bg-color);
             border-color: var(--accent-color);
-            animation: pulseSubtle 4s infinite;
         }
 
         .btn-primary:hover {
@@ -489,116 +496,94 @@
         }
 
         .hero-image-wrapper {
-            position: relative;
             display: flex;
             justify-content: center;
             opacity: 0;
-            animation: fadeInUp 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+            animation: fadeInUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
         }
 
         .featured-card {
             background: var(--surface-color);
             border: 1px solid var(--border-subtle);
             border-radius: 4px;
-            padding: 20px;
+            padding: 18px;
             width: 100%;
             max-width: 390px;
             animation: float 7s ease-in-out infinite;
             box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .card-img {
             width: 100%;
-            aspect-ratio: 1;
+            aspect-ratio: 4/3;
             background:
-                linear-gradient(180deg, rgba(12, 11, 10, 0.08), rgba(12, 11, 10, 0.45)),
+                linear-gradient(180deg, rgba(12, 11, 10, 0.05), rgba(12, 11, 10, 0.45)),
                 url("https://img.youtube.com/vi/NmV2XEtUD3A/maxresdefault.jpg") center/cover;
             filter: grayscale(100%) contrast(1.08);
             border-radius: 2px;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             position: relative;
             overflow: hidden;
         }
 
         .card-badge {
             position: absolute;
-            top: 14px;
-            right: 14px;
+            top: 12px;
+            right: 12px;
             background: rgba(12, 11, 10, 0.85);
             color: var(--accent-color);
             border: 1px solid var(--border-subtle);
-            padding: 5px 10px;
+            padding: 4px 10px;
             border-radius: 2px;
-            font-size: 0.68rem;
+            font-size: 0.66rem;
             font-weight: 700;
             letter-spacing: 0.16em;
             text-transform: uppercase;
         }
 
+        .card-title {
+            font-family: Georgia, "Times New Roman", serif;
+            font-style: italic;
+            font-size: 1.3rem;
+            margin-bottom: 2px;
+        }
+
+        .card-meta {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
         /* --- SCROLL REVEAL --- */
         .reveal {
             opacity: 0;
-            transform: translate3d(0, 40px, 0) scale(0.985);
-            filter: blur(8px);
-            transition:
-                opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-                filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translate3d(0, 32px, 0);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
             transition-delay: var(--reveal-delay, 0ms);
-            will-change: opacity, transform, filter;
-        }
-
-        .reveal.reveal-left {
-            transform: translate3d(-40px, 24px, 0) scale(0.985);
-        }
-
-        .reveal.reveal-right {
-            transform: translate3d(40px, 24px, 0) scale(0.985);
-        }
-
-        .reveal.reveal-zoom {
-            transform: translate3d(0, 28px, 0) scale(0.94);
-        }
-
-        .reveal.reveal-flip {
-            transform: translate3d(0, 34px, 0) rotateX(8deg) scale(0.98);
-            transform-origin: center top;
         }
 
         .reveal.is-visible {
             opacity: 1;
-            transform: translate3d(0, 0, 0) rotate(0deg) rotateX(0deg) scale(1);
-            filter: blur(0);
+            transform: translate3d(0, 0, 0);
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            .reveal,
-            .reveal.reveal-left,
-            .reveal.reveal-right,
-            .reveal.reveal-zoom,
-            .reveal.reveal-flip {
-                opacity: 1;
-                transform: none;
-                filter: none;
-                transition: none;
-            }
-        }
-
-        /* --- SECTION SETTINGS --- */
+        /* --- VIDEOS SECTION --- */
         section {
-            padding: 96px 0;
+            padding: 84px 0;
         }
 
         .section-header {
-            margin-bottom: 52px;
+            margin-bottom: 44px;
         }
 
         .section-title {
             font-family: Georgia, "Times New Roman", serif;
             font-style: italic;
             font-weight: 400;
-            font-size: 2.35rem;
-            margin-bottom: 10px;
+            font-size: clamp(1.9rem, 5vw, 2.4rem);
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 14px;
@@ -607,80 +592,19 @@
         .section-title::after {
             content: '';
             height: 1px;
-            width: 56px;
+            width: 48px;
             background: var(--border-subtle);
         }
 
         .section-desc {
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 0.96rem;
         }
 
-        /* --- CATALOGUE / RELEASES --- */
-        .grid-catalogue {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 28px;
-        }
-
-        .music-card {
-            background: var(--surface-color);
-            border-radius: 4px;
-            padding: 18px;
-            border: 1px solid var(--border-subtle);
-            transition: var(--transition-smooth);
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .music-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(223, 214, 199, 0.35);
-            background: var(--surface-accent);
-        }
-
-        .music-img {
-            width: 100%;
-            aspect-ratio: 16/10;
-            border-radius: 2px;
-            margin-bottom: 16px;
-            background-size: cover;
-            background-position: center;
-            filter: grayscale(100%) contrast(1.06);
-            transition: var(--transition-smooth);
-            box-shadow: inset 0 -40px 50px rgba(0, 0, 0, 0.35);
-        }
-
-        .music-card:hover .music-img {
-            filter: grayscale(40%) contrast(1.1);
-        }
-
-        .img-cannot-lie { background-image: url("https://img.youtube.com/vi/NmV2XEtUD3A/hqdefault.jpg"); }
-        .img-myself     { background-image: url("https://img.youtube.com/vi/KbdGsJTXtKw/hqdefault.jpg"); }
-        .img-it-hurts   { background-image: url("https://img.youtube.com/vi/P8Uzxr-8pvg/hqdefault.jpg"); }
-        .img-problems   { background-image: url("https://img.youtube.com/vi/HG484Kzhhf4/hqdefault.jpg"); }
-
-        .music-title {
-            font-family: Georgia, "Times New Roman", serif;
-            font-style: italic;
-            font-size: 1.25rem;
-            font-weight: 400;
-            margin-bottom: 4px;
-        }
-
-        .music-meta {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            letter-spacing: 0.04em;
-        }
-
-        /* --- VIDEOS SHOWCASE --- */
         .grid-videos {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 28px;
+            gap: 26px;
         }
 
         .video-wrapper {
@@ -692,7 +616,7 @@
         }
 
         .video-wrapper:hover {
-            border-color: rgba(223, 214, 199, 0.3);
+            border-color: rgba(223, 214, 199, 0.32);
         }
 
         .video-container {
@@ -707,17 +631,38 @@
 
         .video-container iframe {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
             border: none;
         }
 
+        .video-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+        }
+
         .video-title {
-            font-size: 1rem;
-            font-weight: 600;
+            font-family: Georgia, "Times New Roman", serif;
+            font-style: italic;
+            font-size: 1.2rem;
             color: var(--text-main);
+        }
+
+        .video-link {
+            font-size: 0.74rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--accent-secondary);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .video-link:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
         }
 
         .video-sub {
@@ -726,228 +671,19 @@
             margin-top: 2px;
         }
 
-        /* --- ELECTRONIC PRESS KIT (EPK) --- */
-        .epk-panel {
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
-            gap: 36px;
-            align-items: stretch;
-            padding: 36px;
-            border: 1px solid var(--border-subtle);
-            border-radius: 4px;
-            background:
-                linear-gradient(150deg, rgba(242, 238, 230, 0.05), rgba(242, 238, 230, 0.015)),
-                rgba(21, 20, 18, 0.85);
-        }
-
-        .epk-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .epk-kicker {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.22em;
-            color: var(--accent-secondary);
-            margin-bottom: 10px;
-        }
-
-        .epk-title {
-            font-family: Georgia, "Times New Roman", serif;
-            font-style: italic;
-            font-weight: 400;
-            font-size: 2.2rem;
-            line-height: 1.12;
-            margin-bottom: 14px;
-        }
-
-        .epk-lead {
-            color: var(--text-main);
-            font-size: 1.02rem;
-            max-width: 640px;
-            margin-bottom: 14px;
-        }
-
-        .epk-copy {
-            color: var(--text-muted);
-            max-width: 660px;
-            margin-bottom: 24px;
-            font-size: 0.95rem;
-        }
-
-        .epk-highlights {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px;
-            margin-bottom: 26px;
-            list-style: none;
-        }
-
-        .epk-highlights li {
-            padding: 12px 14px;
-            border: 1px solid var(--border-subtle);
-            border-radius: 3px;
-            background: rgba(242, 238, 230, 0.025);
-            color: var(--text-muted);
-            font-size: 0.88rem;
-        }
-
-        .epk-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .epk-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .epk-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .stat-box {
-            min-height: 112px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            background: rgba(242, 238, 230, 0.03);
-            padding: 16px;
-            border-radius: 3px;
-            border: 1px solid var(--border-subtle);
-        }
-
-        .stat-num {
-            font-family: Georgia, "Times New Roman", serif;
-            font-style: italic;
-            font-size: 1.8rem;
-            line-height: 1;
-            color: var(--text-main);
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-        }
-
-        .epk-contact-card {
-            padding: 20px;
-            border-radius: 3px;
-            background: rgba(0, 0, 0, 0.35);
-            border: 1px solid var(--border-subtle);
-        }
-
-        .epk-contact-card h3 {
-            font-size: 0.8rem;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            color: var(--accent-secondary);
-        }
-
-        .epk-contact-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 16px;
-            padding: 10px 0;
-            border-top: 1px solid var(--border-subtle);
-            color: var(--text-muted);
-            font-size: 0.88rem;
-        }
-
-        .epk-contact-row strong {
-            color: var(--text-main);
-            font-weight: 600;
-        }
-
-        .epk-contact-row a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .epk-contact-row a:hover {
-            text-decoration: underline;
-        }
-
-        /* --- EVENTS --- */
-        .bandsintown-container {
-            background: var(--surface-color);
-            border-radius: 4px;
-            padding: 32px;
-            border: 1px solid var(--border-subtle);
-            min-height: 180px;
-        }
-
-        .event-row {
-            display: grid;
-            grid-template-columns: 110px 1fr auto;
-            gap: 20px;
-            align-items: center;
-            padding: 18px 0;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .event-row:last-child {
-            border-bottom: none;
-        }
-
-        .event-date {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            color: var(--accent-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            font-weight: 700;
-        }
-
-        .event-date span:first-child {
-            font-family: Georgia, "Times New Roman", serif;
-            font-style: italic;
-            font-size: 1.35rem;
-            color: var(--text-main);
-            line-height: 1;
-        }
-
-        .event-date span:last-child {
-            font-size: 0.74rem;
-        }
-
-        .event-info strong {
-            display: block;
-            color: var(--text-main);
-            font-size: 1rem;
-            margin-bottom: 3px;
-        }
-
-        .event-info span {
-            color: var(--text-muted);
-            font-size: 0.88rem;
-        }
-
         /* --- MAILING LIST & FOOTER --- */
         .newsletter-section {
-            background: linear-gradient(180deg, transparent, rgba(21, 20, 18, 0.75));
             border-top: 1px solid var(--border-subtle);
-            padding: 80px 0;
+            padding: 72px 0;
         }
 
         .newsletter-box {
             background: var(--surface-color);
             border: 1px solid var(--border-subtle);
             border-radius: 4px;
-            padding: 44px 32px;
+            padding: 40px 28px;
             text-align: center;
-            max-width: 760px;
+            max-width: 680px;
             margin: 0 auto;
         }
 
@@ -955,25 +691,26 @@
             font-family: Georgia, "Times New Roman", serif;
             font-style: italic;
             font-weight: 400;
-            font-size: 2rem;
-            margin-bottom: 10px;
+            font-size: 1.85rem;
+            margin-bottom: 8px;
         }
 
         .newsletter-box p {
             color: var(--text-muted);
-            margin-bottom: 26px;
-            font-size: 0.95rem;
+            margin-bottom: 24px;
+            font-size: 0.94rem;
         }
 
         .form-inline {
             display: flex;
-            gap: 12px;
-            max-width: 500px;
+            gap: 10px;
+            max-width: 480px;
             margin: 0 auto;
         }
 
         .form-control {
             flex: 1;
+            min-width: 0;
             padding: 14px 16px;
             background: rgba(0, 0, 0, 0.45);
             border: 1px solid var(--border-subtle);
@@ -991,49 +728,81 @@
 
         .form-feedback {
             margin-top: 12px;
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             color: var(--accent-color);
             min-height: 20px;
         }
 
         footer {
-            padding: 36px 0;
+            padding: 32px 0;
             border-top: 1px solid var(--border-subtle);
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.82rem;
         }
 
-        @media (max-width: 900px) {
-            .hero-grid,
-            .grid-videos,
-            .epk-panel {
+        /* --- RESPONSIVO (TABLET & TELEMÓVEL) --- */
+        @media (max-width: 860px) {
+            .hero {
+                min-height: auto;
+                padding: 108px 0 56px;
+            }
+
+            .hero-grid {
                 grid-template-columns: 1fr;
+                gap: 32px;
             }
+
+            .grid-videos {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: inline-flex;
+            }
+
             .nav-container {
-                padding: 0 20px;
+                padding: 0 22px;
             }
+
             .nav-container::before {
                 inset: 0 12px;
             }
-            .nav-links {
-                gap: 2px;
-            }
-            .nav-links a {
-                padding: 0 9px;
-                font-size: 0.75rem;
-            }
         }
 
-        @media (max-width: 600px) {
-            .form-inline,
-            .event-row,
-            .epk-highlights {
-                grid-template-columns: 1fr;
+        @media (max-width: 540px) {
+            .container {
+                padding: 0 18px;
+            }
+
+            section {
+                padding: 64px 0;
+            }
+
+            .cta-group {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .cta-group .btn {
+                width: 100%;
+            }
+
+            .form-inline {
                 flex-direction: column;
             }
-            .epk-panel {
-                padding: 24px 18px;
+
+            .form-inline .btn {
+                width: 100%;
+            }
+
+            .newsletter-box {
+                padding: 32px 20px;
             }
         }
     </style>
@@ -1046,8 +815,6 @@
             <div class="loader-mark">
                 <span class="loader-logo">willl</span>
             </div>
-            <div class="loader-title">Official Archive</div>
-            <div class="loader-text">A carregar lançamentos &amp; visuais...</div>
             <div class="loader-progress"><span></span></div>
             <div class="loader-percent" id="loaderPercent">0%</div>
         </div>
@@ -1057,234 +824,122 @@
     <header>
         <div class="nav-container">
             <a href="#" class="logo">willl</a>
+
+            <!-- Menu Desktop -->
             <ul class="nav-links">
-                <li><a href="#releases">Faixas</a></li>
-                <li><a href="#videos">Vídeos</a></li>
-                <li><a href="#epk">EPK</a></li>
-                <li><a href="#events">Agenda</a></li>
-                <li><a href="#newsletter">Lista</a></li>
+                <li><a href="#videos">Músicas</a></li>
+                <li><a href="#newsletter">Notificações</a></li>
+                <li><a href="https://www.youtube.com/watch?v=NmV2XEtUD3A" target="_blank" rel="noopener noreferrer">YouTube</a></li>
             </ul>
+
+            <!-- Botão Hambúrguer Mobile -->
+            <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileDrawer">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </header>
+
+    <!-- Menu Mobile Fullscreen -->
+    <nav class="mobile-drawer" id="mobileDrawer" aria-label="Menu mobile">
+        <a href="#videos" class="drawer-link">Músicas</a>
+        <a href="#newsletter" class="drawer-link">Notificações</a>
+        <a href="https://www.youtube.com/watch?v=NmV2XEtUD3A" target="_blank" rel="noopener noreferrer" class="drawer-link">YouTube</a>
+    </nav>
 
     <!-- Hero -->
     <section class="hero">
         <div class="container">
             <div class="hero-grid">
                 <div class="hero-content">
-                    <div class="tagline">Indie R&amp;B · Alternative · Lo-Fi</div>
+                    <div class="tagline">WILLL · Official Music Video</div>
                     <h1 class="hero-title">cannot lie</h1>
-                    <p class="hero-desc">
-                        Som confessional, texturas cruas e estética monocromática de película. Explora os lançamentos oficiais do WILLL — <em>cannot lie</em>, <em>myself</em>, <em>it hurts</em> e <em>problems</em>.
-                    </p>
+                    <blockquote class="hero-lyric">
+                        “You’re not going to be mine,<br>
+                        we’re only touching our shadows.”
+                    </blockquote>
                     <div class="cta-group">
-                        <a href="#videos" class="btn btn-primary">Ver Videoclipe</a>
-                        <a href="#releases" class="btn btn-secondary">Explorar Faixas</a>
+                        <a href="#videos" class="btn btn-primary">Ouvir Agora</a>
+                        <a href="https://www.youtube.com/watch?v=NmV2XEtUD3A" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Abrir no YouTube</a>
                     </div>
                 </div>
 
                 <div class="hero-image-wrapper">
-                    <div class="featured-card">
+                    <a href="https://www.youtube.com/watch?v=NmV2XEtUD3A" target="_blank" rel="noopener noreferrer" class="featured-card">
                         <div class="card-img">
-                            <span class="card-badge">Novo Lançamento</span>
+                            <span class="card-badge">Novo</span>
                         </div>
-                        <div class="music-title">cannot lie</div>
-                        <div class="music-meta">WILLL · Official Music Video</div>
-                    </div>
+                        <div class="card-title">cannot lie</div>
+                        <div class="card-meta">WILLL · Official Music Video</div>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Catálogo / Faixas -->
-    <section id="releases">
-        <div class="container">
-            <div class="section-header reveal">
-                <h2 class="section-title">Faixas &amp; Visuais</h2>
-                <p class="section-desc">Seleção oficial disponível no YouTube.</p>
-            </div>
-
-            <div class="grid-catalogue">
-                <a href="https://www.youtube.com/watch?v=NmV2XEtUD3A" target="_blank" rel="noopener noreferrer" class="music-card reveal reveal-flip">
-                    <div class="music-img img-cannot-lie"></div>
-                    <div class="music-title">cannot lie</div>
-                    <div class="music-meta">Official Music Video · YouTube</div>
-                </a>
-
-                <a href="https://www.youtube.com/watch?v=KbdGsJTXtKw" target="_blank" rel="noopener noreferrer" class="music-card reveal reveal-flip">
-                    <div class="music-img img-myself"></div>
-                    <div class="music-title">myself</div>
-                    <div class="music-meta">Official Lyric Video · YouTube</div>
-                </a>
-
-                <a href="https://www.youtube.com/watch?v=P8Uzxr-8pvg" target="_blank" rel="noopener noreferrer" class="music-card reveal reveal-flip">
-                    <div class="music-img img-it-hurts"></div>
-                    <div class="music-title">it hurts</div>
-                    <div class="music-meta">Official Lyric Video · YouTube</div>
-                </a>
-
-                <a href="https://www.youtube.com/watch?v=HG484Kzhhf4" target="_blank" rel="noopener noreferrer" class="music-card reveal reveal-flip">
-                    <div class="music-img img-problems"></div>
-                    <div class="music-title">problems</div>
-                    <div class="music-meta">Official Audio · YouTube</div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Vídeos Showcase -->
+    <!-- Vídeos / Músicas (sem duplicação) -->
     <section id="videos">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title">Videoclipes &amp; Sessões</h2>
-                <p class="section-desc">Assiste diretamente na página aos lançamentos do WILLL.</p>
+                <h2 class="section-title">Músicas</h2>
+                <p class="section-desc">Ouve e assiste diretamente aqui ou abre no YouTube.</p>
             </div>
 
             <div class="grid-videos">
-                <div class="video-wrapper reveal reveal-left">
+                <div class="video-wrapper reveal">
                     <div class="video-container">
                         <iframe src="https://www.youtube.com/embed/NmV2XEtUD3A" title="WILLL - cannot lie (official music video)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                     </div>
-                    <div class="video-title">WILLL — cannot lie</div>
+                    <div class="video-header">
+                        <div class="video-title">cannot lie</div>
+                        <a href="https://www.youtube.com/watch?v=NmV2XEtUD3A" target="_blank" rel="noopener noreferrer" class="video-link">YouTube ↗</a>
+                    </div>
                     <div class="video-sub">Official Music Video</div>
                 </div>
 
-                <div class="video-wrapper reveal reveal-right">
+                <div class="video-wrapper reveal">
                     <div class="video-container">
                         <iframe src="https://www.youtube.com/embed/KbdGsJTXtKw" title="WILLL - myself (official lyric video)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                     </div>
-                    <div class="video-title">WILLL — myself</div>
+                    <div class="video-header">
+                        <div class="video-title">myself</div>
+                        <a href="https://www.youtube.com/watch?v=KbdGsJTXtKw" target="_blank" rel="noopener noreferrer" class="video-link">YouTube ↗</a>
+                    </div>
                     <div class="video-sub">Official Lyric Video</div>
                 </div>
 
-                <div class="video-wrapper reveal reveal-left">
+                <div class="video-wrapper reveal">
                     <div class="video-container">
                         <iframe src="https://www.youtube.com/embed/P8Uzxr-8pvg" title="WILLL - it hurts (official lyric video)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                     </div>
-                    <div class="video-title">WILLL — it hurts</div>
+                    <div class="video-header">
+                        <div class="video-title">it hurts</div>
+                        <a href="https://www.youtube.com/watch?v=P8Uzxr-8pvg" target="_blank" rel="noopener noreferrer" class="video-link">YouTube ↗</a>
+                    </div>
                     <div class="video-sub">Official Lyric Video</div>
                 </div>
 
-                <div class="video-wrapper reveal reveal-right">
+                <div class="video-wrapper reveal">
                     <div class="video-container">
                         <iframe src="https://www.youtube.com/embed/HG484Kzhhf4" title="WILLL - problems (official audio)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                     </div>
-                    <div class="video-title">WILLL — problems</div>
+                    <div class="video-header">
+                        <div class="video-title">problems</div>
+                        <a href="https://www.youtube.com/watch?v=HG484Kzhhf4" target="_blank" rel="noopener noreferrer" class="video-link">YouTube ↗</a>
+                    </div>
                     <div class="video-sub">Official Audio</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Electronic Press Kit (EPK) -->
-    <section id="epk">
-        <div class="container">
-            <div class="epk-panel reveal reveal-zoom">
-                <div class="epk-content">
-                    <div class="epk-kicker">Electronic Press Kit</div>
-                    <h2 class="epk-title">WILLL</h2>
-                    <p class="epk-lead">
-                        Projeto musical de estética indie, alternativa e lo-fi, focado em letras diretas, atmosferas intimistas e identidade visual analógica.
-                    </p>
-                    <p class="epk-copy">
-                        Com faixas como <em>cannot lie</em>, <em>myself</em>, <em>it hurts</em> e <em>problems</em>, o projeto cruza sensibilidade melódica com um imaginário visual depurado a preto e branco e texturas de arquivo.
-                    </p>
-
-                    <ul class="epk-highlights">
-                        <li>Estética visual monocromática e analógica</li>
-                        <li>Lançamentos oficiais com videoclipe, lyric e áudio</li>
-                        <li>Direção criativa e som de assinatura própria</li>
-                        <li>Disponível para imprensa, curadoria e colaborações</li>
-                    </ul>
-
-                    <div class="epk-actions">
-                        <a href="#newsletter" class="btn btn-primary">Entrar na Lista</a>
-                        <a href="https://www.youtube.com/watch?v=NmV2XEtUD3A" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Canal YouTube</a>
-                    </div>
-                </div>
-
-                <div class="epk-sidebar">
-                    <div class="epk-stats">
-                        <div class="stat-box">
-                            <span class="stat-num">04</span>
-                            <span class="stat-label">Lançamentos em Destaque</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-num">Indie</span>
-                            <span class="stat-label">R&amp;B / Alt / Lo-Fi</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-num">B&amp;W</span>
-                            <span class="stat-label">Visual Analógico</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-num">Live</span>
-                            <span class="stat-label">Booking &amp; Press</span>
-                        </div>
-                    </div>
-
-                    <div class="epk-contact-card">
-                        <h3>Contacto &amp; Gestão</h3>
-                        <div class="epk-contact-row">
-                            <strong>Artista</strong>
-                            <span>WILLL</span>
-                        </div>
-                        <div class="epk-contact-row">
-                            <strong>Produção / Web</strong>
-                            <span>DayzVibes</span>
-                        </div>
-                        <div class="epk-contact-row">
-                            <strong>Booking / Imprensa</strong>
-                            <a href="mailto:contacto@exemplo.pt">contacto@exemplo.pt</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Agenda / Datas -->
-    <section id="events">
-        <div class="container">
-            <div class="section-header reveal">
-                <h2 class="section-title">Agenda &amp; Drops</h2>
-                <p class="section-desc">Próximos lançamentos e datas por anunciar.</p>
-            </div>
-
-            <div class="bandsintown-container reveal reveal-up">
-                <div class="event-row">
-                    <div class="event-date">
-                        <span>NOV</span>
-                        <span>2026</span>
-                    </div>
-                    <div class="event-info">
-                        <strong>WILLL — cannot lie (Official Music Video)</strong>
-                        <span>Disponível no YouTube</span>
-                    </div>
-                    <a href="https://www.youtube.com/watch?v=NmV2XEtUD3A" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Assistir</a>
-                </div>
-
-                <div class="event-row">
-                    <div class="event-date">
-                        <span>TBA</span>
-                        <span>PRÓXIMO</span>
-                    </div>
-                    <div class="event-info">
-                        <strong>Novas datas &amp; sessões</strong>
-                        <span>Anúncios em breve na lista e redes oficiais</span>
-                    </div>
-                    <a href="#newsletter" class="btn btn-secondary">Avisar-me</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Mailing List -->
+    <!-- Notificações -->
     <section id="newsletter" class="newsletter-section">
         <div class="container">
-            <div class="newsletter-box reveal reveal-zoom">
-                <h2>Fica a par dos próximos drops</h2>
-                <p>Recebe novidades diretas do WILLL sem depender de algoritmos.</p>
+            <div class="newsletter-box reveal">
+                <h2>Recebe os próximos sons</h2>
+                <p>Deixa o teu e-mail para saber quando sair música nova.</p>
                 <form class="form-inline" id="newsletterForm">
                     <input type="email" class="form-control" id="newsletterEmail" placeholder="O teu e-mail..." required>
                     <button type="submit" class="btn btn-primary">Subscrever</button>
@@ -1297,24 +952,22 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>WILLL — Official Website · Criado com base por DayzVibes.</p>
+            <p>WILLL · Official Website</p>
         </div>
     </footer>
 
     <script>
-        // --- LOADER PROGRESSIVO ---
+        // --- LOADER ---
         (function () {
             const loader = document.getElementById("pageLoader");
             const percentEl = document.getElementById("loaderPercent");
             let progress = 0;
 
             const interval = setInterval(() => {
-                progress += Math.floor(Math.random() * 18) + 8;
-                if (progress >= 92) {
-                    progress = 92;
-                }
+                progress += Math.floor(Math.random() * 20) + 10;
+                if (progress >= 92) progress = 92;
                 if (percentEl) percentEl.textContent = progress + "%";
-            }, 90);
+            }, 85);
 
             function finishLoader() {
                 clearInterval(interval);
@@ -1322,11 +975,43 @@
                 setTimeout(() => {
                     document.body.classList.remove("is-loading");
                     if (loader) loader.classList.add("is-hidden");
-                }, 220);
+                }, 180);
             }
 
             window.addEventListener("load", finishLoader);
-            setTimeout(finishLoader, 1800);
+            setTimeout(finishLoader, 1600);
+        })();
+
+        // --- MENU HAMBÚRGUER MOBILE ---
+        (function () {
+            const toggle = document.getElementById("menuToggle");
+            const drawer = document.getElementById("mobileDrawer");
+            const links = document.querySelectorAll(".drawer-link");
+
+            if (!toggle || !drawer) return;
+
+            function setMenu(open) {
+                toggle.classList.toggle("is-active", open);
+                drawer.classList.toggle("is-open", open);
+                document.body.classList.toggle("menu-open", open);
+                toggle.setAttribute("aria-expanded", String(open));
+                toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+            }
+
+            toggle.addEventListener("click", function () {
+                const isOpen = drawer.classList.contains("is-open");
+                setMenu(!isOpen);
+            });
+
+            links.forEach((link) => {
+                link.addEventListener("click", () => setMenu(false));
+            });
+
+            window.addEventListener("resize", () => {
+                if (window.innerWidth > 860 && drawer.classList.contains("is-open")) {
+                    setMenu(false);
+                }
+            });
         })();
 
         // --- SCROLL REVEAL ---
@@ -1346,16 +1031,16 @@
                         }
                     });
                 },
-                { threshold: 0.12, rootMargin: "0px 0px -30px 0px" }
+                { threshold: 0.1, rootMargin: "0px 0px -24px 0px" }
             );
 
             reveals.forEach((el, idx) => {
-                el.style.setProperty("--reveal-delay", (idx % 4) * 70 + "ms");
+                el.style.setProperty("--reveal-delay", (idx % 2) * 80 + "ms");
                 observer.observe(el);
             });
         })();
 
-        // --- FEEDBACK LOCAL DO FORMULÁRIO ---
+        // --- FORMULÁRIO ---
         (function () {
             const form = document.getElementById("newsletterForm");
             const input = document.getElementById("newsletterEmail");
@@ -1366,7 +1051,7 @@
             form.addEventListener("submit", function (e) {
                 e.preventDefault();
                 if (!input.value.trim()) return;
-                feedback.textContent = "E-mail registado localmente (" + input.value.trim() + "). Liga o endpoint do formulário quando quiseres recolher leads.";
+                feedback.textContent = "E-mail registado (" + input.value.trim() + ").";
                 form.reset();
             });
         })();
