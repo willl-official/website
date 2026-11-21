@@ -69,7 +69,7 @@
         }
 
         body.site-ready {
-            animation: siteRevealFade 0.9s ease forwards;
+            animation: siteRevealFade 0.85s ease forwards;
         }
 
         body.menu-open {
@@ -137,7 +137,7 @@
             animation: vhsRoll 8.5s linear infinite;
         }
 
-        /* --- LOADING SCREEN: DENTRO DE UMA TV ANTIGA --- */
+        /* --- LOADING SCREEN: DENTRO DE UMA TV ANTIGA (ESPERA CLIQUE) --- */
         body.is-loading {
             overflow: hidden;
         }
@@ -152,17 +152,15 @@
             justify-content: center;
             padding: 16px;
             opacity: 1;
-            transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.85s ease;
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.75s ease;
         }
 
-        .tv-loader.is-fading {
+        .tv-loader.is-entering {
             opacity: 0;
-            transform: scale(1.06);
             visibility: hidden;
             pointer-events: none;
         }
 
-        /* Caixa exterior / moldura do televisor antigo */
         .tv-casing {
             width: min(880px, 100%);
             aspect-ratio: 4 / 3;
@@ -179,9 +177,26 @@
             flex-direction: column;
             justify-content: space-between;
             position: relative;
+            transform-origin: center center;
+            transition:
+                transform 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+                padding 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+                border-radius 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.75s ease;
         }
 
-        /* Ecrã curvo / vidro CRT interior onde fica a loading bar */
+        /* No desktop: zoom no ecrã da TV até preencher a tela toda */
+        .tv-loader.is-entering .tv-casing {
+            transform: scale(1.42);
+            padding: 0;
+            border-radius: 0;
+            opacity: 0;
+        }
+
+        .tv-loader.is-entering .tv-screen {
+            border-radius: 0;
+        }
+
         .tv-screen {
             position: relative;
             flex: 1;
@@ -198,9 +213,13 @@
             flex-direction: column;
             justify-content: space-between;
             padding: clamp(18px, 3.5vw, 32px);
+            transition: border-radius 0.95s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* Scanlines + ruído dentro do ecrã da TV */
+        .tv-screen.is-clickable {
+            cursor: pointer;
+        }
+
         .tv-screen::before {
             content: '';
             position: absolute;
@@ -219,7 +238,6 @@
             animation: crtFlicker 3.5s infinite;
         }
 
-        /* Reflexo de vidro curvo no canto superior */
         .tv-screen::after {
             content: '';
             position: absolute;
@@ -301,7 +319,38 @@
             color: var(--text-muted);
         }
 
-        /* Loading bar dentro do próprio ecrã da TV */
+        /* Botão dentro do ecrã da TV quando atinge 100% */
+        .tv-enter-trigger {
+            margin-top: 22px;
+            padding: 11px 24px;
+            background: rgba(223, 214, 199, 0.1);
+            border: 1px solid rgba(223, 214, 199, 0.55);
+            color: var(--text-main);
+            font-family: "Courier New", Courier, monospace;
+            font-size: clamp(0.74rem, 1.8vw, 0.88rem);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border-radius: 3px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.35s ease, transform 0.35s ease, background-color 0.25s ease, border-color 0.25s ease, visibility 0.35s ease;
+        }
+
+        .tv-enter-trigger.is-ready {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            animation: promptPulse 2.2s ease-in-out infinite;
+        }
+
+        .tv-enter-trigger:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            border-color: var(--accent-color);
+        }
+
         .tv-bottom-hud {
             width: 100%;
         }
@@ -341,7 +390,6 @@
             transition: width 0.12s linear;
         }
 
-        /* Barra inferior exterior da TV (botão + grelha de som) */
         .tv-bezel-footer {
             display: flex;
             justify-content: space-between;
@@ -363,23 +411,12 @@
             background: rgba(242, 238, 230, 0.14);
         }
 
-        .tv-skip-btn {
-            background: transparent;
-            border: 1px solid rgba(242, 238, 230, 0.22);
-            color: var(--text-muted);
+        .tv-bezel-hint {
             font-family: "Courier New", Courier, monospace;
-            font-size: 0.72rem;
-            letter-spacing: 0.16em;
+            font-size: 0.7rem;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
-            padding: 5px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-
-        .tv-skip-btn:hover {
-            color: var(--text-main);
-            border-color: var(--accent-color);
+            color: var(--text-muted);
         }
 
         ::selection {
@@ -406,7 +443,7 @@
 
         /* --- KEYFRAMES --- */
         @keyframes siteRevealFade {
-            from { opacity: 0.15; }
+            from { opacity: 0; }
             to { opacity: 1; }
         }
 
@@ -418,6 +455,11 @@
         @keyframes ledBlink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.25; }
+        }
+
+        @keyframes promptPulse {
+            0%, 100% { box-shadow: 0 0 0 rgba(223, 214, 199, 0); }
+            50% { box-shadow: 0 0 18px rgba(223, 214, 199, 0.25); }
         }
 
         @keyframes analogFloat {
@@ -1084,25 +1126,36 @@
             .tv-screen::before,
             .tv-screen-noise,
             .tv-signal-dot,
+            .tv-enter-trigger.is-ready,
             .featured-card,
             .card-img {
                 animation: none;
             }
-            .tv-loader {
+            .tv-loader,
+            .tv-casing,
+            .tv-screen {
                 transition-duration: 0.2s;
             }
         }
 
         /* --- RESPONSIVO (TABLET & TELEMÓVEL) --- */
         @media (max-width: 860px) {
+            /* Solução mobile viável: expansão suave + fade sem zoom gigante fora de controlo */
             .tv-casing {
                 aspect-ratio: auto;
-                min-height: 70vh;
+                min-height: 68vh;
                 border-radius: 20px;
             }
 
             .tv-screen {
                 border-radius: 16px;
+            }
+
+            .tv-loader.is-entering .tv-casing {
+                transform: scale(1.04);
+                padding: 14px;
+                border-radius: 20px;
+                opacity: 0;
             }
 
             .hero {
@@ -1177,10 +1230,10 @@
         <div class="crt-scanbar"></div>
     </div>
 
-    <!-- Loading Screen: Dentro de uma TV Antiga com Loading Bar no Ecrã -->
-    <div class="tv-loader" id="tvLoader" role="status" aria-live="polite">
-        <div class="tv-casing">
-            <div class="tv-screen">
+    <!-- Loading Screen: Dentro de uma TV Antiga (Aguarda Clique nos 100%) -->
+    <div class="tv-loader" id="tvLoader" role="dialog" aria-modal="true" aria-label="Carregamento da TV">
+        <div class="tv-casing" id="tvCasing">
+            <div class="tv-screen" id="tvScreen">
                 <div class="tv-screen-noise" aria-hidden="true"></div>
 
                 <div class="tv-top-hud">
@@ -1191,11 +1244,12 @@
                 <div class="tv-center-hud">
                     <div class="tv-brand">willl</div>
                     <div class="tv-subtitle">cannot lie · analog feed</div>
+                    <button type="button" class="tv-enter-trigger" id="tvEnterBtn">Clicar para entrar</button>
                 </div>
 
                 <div class="tv-bottom-hud">
                     <div class="tv-bar-meta">
-                        <span>A CARREGAR SINAL</span>
+                        <span id="tvBarText">A CARREGAR SINAL</span>
                         <span id="tvPercent">0%</span>
                     </div>
                     <div class="tv-progress-track">
@@ -1209,7 +1263,7 @@
                     <span></span><span></span><span></span><span></span>
                     <span></span><span></span><span></span><span></span>
                 </div>
-                <button type="button" class="tv-skip-btn" id="tvSkipBtn">Entrar →</button>
+                <span class="tv-bezel-hint" id="tvBezelHint">A aguardar sinal</span>
             </div>
         </div>
     </div>
@@ -1352,62 +1406,95 @@
     </footer>
 
     <script>
-        // --- LOADING SCREEN DENTRO DA TV ANTIGA + FADE PARA O SITE ---
+        // --- LOADING SCREEN DENTRO DA TV (CLIQUE MANUAL + ZOOM CRT NO PC / FADE NO MOBILE) ---
         (function () {
             const tvLoader = document.getElementById("tvLoader");
+            const tvScreen = document.getElementById("tvScreen");
             const tvFill = document.getElementById("tvProgressFill");
             const tvPercent = document.getElementById("tvPercent");
             const tvStatus = document.getElementById("tvStatusLabel");
-            const skipBtn = document.getElementById("tvSkipBtn");
+            const tvBarText = document.getElementById("tvBarText");
+            const tvBezelHint = document.getElementById("tvBezelHint");
+            const enterBtn = document.getElementById("tvEnterBtn");
 
             let progress = 0;
-            let finished = false;
+            let readyToEnter = false;
+            let hasEntered = false;
 
             function setProgress(val) {
                 progress = Math.max(0, Math.min(100, val));
                 if (tvFill) tvFill.style.width = progress + "%";
                 if (tvPercent) tvPercent.textContent = progress + "%";
                 if (tvStatus) {
-                    if (progress < 40) tvStatus.textContent = "SINTONIZANDO...";
-                    else if (progress < 85) tvStatus.textContent = "A RECEBER SINAL...";
-                    else tvStatus.textContent = "SINAL LOCKED";
+                    if (progress < 45) tvStatus.textContent = "SINTONIZANDO...";
+                    else if (progress < 100) tvStatus.textContent = "A RECEBER SINAL...";
+                    else tvStatus.textContent = "SINAL PRONTO";
                 }
             }
 
-            function enterSite() {
-                if (finished) return;
-                finished = true;
+            function unlockEntry() {
+                if (readyToEnter) return;
+                readyToEnter = true;
                 clearInterval(stepTimer);
                 setProgress(100);
+
+                if (tvBarText) tvBarText.textContent = "SINAL COMPLETO";
+                if (tvBezelHint) tvBezelHint.textContent = "Clica no ecrã para entrar";
+                if (enterBtn) enterBtn.classList.add("is-ready");
+                if (tvScreen) tvScreen.classList.add("is-clickable");
+            }
+
+            function enterSite() {
+                if (!readyToEnter || hasEntered) return;
+                hasEntered = true;
+
+                if (tvLoader) {
+                    tvLoader.classList.add("is-entering");
+                }
 
                 setTimeout(() => {
                     document.body.classList.remove("is-loading");
                     document.body.classList.add("site-ready");
+                }, 180);
+
+                setTimeout(() => {
                     if (tvLoader) {
-                        tvLoader.classList.add("is-fading");
-                        setTimeout(() => {
-                            tvLoader.style.display = "none";
-                        }, 900);
+                        tvLoader.style.display = "none";
                     }
-                }, 220);
+                }, 980);
             }
 
             const stepTimer = setInterval(() => {
-                if (progress < 90) {
-                    setProgress(progress + Math.floor(Math.random() * 14) + 6);
+                if (progress < 100) {
+                    const next = progress + Math.floor(Math.random() * 16) + 8;
+                    if (next >= 100) {
+                        unlockEntry();
+                    } else {
+                        setProgress(next);
+                    }
                 }
             }, 120);
 
+            // Garante que chega a 100% e fica à espera de clique sem entrar sozinho
             window.addEventListener("load", () => {
-                setTimeout(enterSite, 750);
+                setTimeout(unlockEntry, 600);
             });
+            setTimeout(unlockEntry, 1800);
 
-            if (skipBtn) {
-                skipBtn.addEventListener("click", enterSite);
+            if (enterBtn) {
+                enterBtn.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    enterSite();
+                });
             }
 
-            // Garante que nunca fica preso mesmo que um iframe/imagem demore
-            setTimeout(enterSite, 2400);
+            if (tvScreen) {
+                tvScreen.addEventListener("click", function () {
+                    if (readyToEnter) {
+                        enterSite();
+                    }
+                });
+            }
         })();
 
         // --- MENU HAMBÚRGUER MOBILE ---
